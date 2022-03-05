@@ -26,7 +26,7 @@
         {
           "terraform_backend_bucket": [
             {
-              "bucket": "terraform-state-obni7159g1wxtyxpxoavk46dfuymni9bf4pda7ii21ad0"
+              "bucket": "terraform-state-q3hx0vqrxh0di1j0378tok3xzixgcc2cim1oi8z0fud1h"
             }
           ]
         }
@@ -35,7 +35,7 @@
     {
       "aws_instance": [
         {
-          "up": [
+          "upjjj": [
             {
               "ami": "${data.aws_ami.amazon_latest.id}",
               "instance_type": "t2.micro",
