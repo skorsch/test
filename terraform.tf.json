@@ -26,7 +26,26 @@
         {
           "terraform_backend_bucket": [
             {
-              "bucket": "terraform-state-mtg16mr8do34jj5ygov7q1ly88bw44g9b8q85936ler5q"
+              "bucket": "terraform-state-7tkifd6ihw14me46s2eqqced8ls1rz38r31xn5i85hhql"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "aws_instance": [
+        {
+          "uu": [
+            {
+              "ami": "${data.aws_ami.amazon_latest.id}",
+              "instance_type": "t2.micro",
+              "lifecycle": [
+                {
+                  "ignore_changes": [
+                    "ami"
+                  ]
+                }
+              ]
             }
           ]
         }
@@ -53,6 +72,34 @@
     }
   ],
   "data": [
+    {
+      "aws_ami": [
+        {
+          "amazon_latest": [
+            {
+              "most_recent": true,
+              "owners": [
+                "585441382316"
+              ],
+              "filter": [
+                {
+                  "name": "name",
+                  "values": [
+                    "*AmazonLinux*"
+                  ]
+                },
+                {
+                  "name": "virtualization-type",
+                  "values": [
+                    "hvm"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
     {
       "aws_ami": [
         {
