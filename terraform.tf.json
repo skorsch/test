@@ -26,7 +26,7 @@
         {
           "terraform_backend_bucket": [
             {
-              "bucket": "terraform-state-ttz27fa1zlqkc9nswwyym75tyge2p7g4yp5tyqzd1qt0w"
+              "bucket": "terraform-state-obni7159g1wxtyxpxoavk46dfuymni9bf4pda7ii21ad0"
             }
           ]
         }
@@ -35,9 +35,9 @@
     {
       "aws_instance": [
         {
-          "ii": [
+          "up": [
             {
-              "ami": "${data.aws_ami.ubuntu_latest.id}",
+              "ami": "${data.aws_ami.amazon_latest.id}",
               "instance_type": "t2.micro",
               "lifecycle": [
                 {
@@ -54,9 +54,9 @@
     {
       "aws_instance": [
         {
-          "uu": [
+          "io": [
             {
-              "ami": "${data.aws_ami.amazon_latest.id}",
+              "ami": "${data.aws_ami.ubuntu_latest.id}",
               "instance_type": "t2.micro",
               "lifecycle": [
                 {
@@ -94,17 +94,17 @@
     {
       "aws_ami": [
         {
-          "ubuntu_latest": [
+          "amazon_latest": [
             {
               "most_recent": true,
               "owners": [
-                "099720109477"
+                "585441382316"
               ],
               "filter": [
                 {
                   "name": "name",
                   "values": [
-                    "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64*"
+                    "*AmazonLinux*"
                   ]
                 },
                 {
@@ -122,17 +122,17 @@
     {
       "aws_ami": [
         {
-          "amazon_latest": [
+          "ubuntu_latest": [
             {
               "most_recent": true,
               "owners": [
-                "585441382316"
+                "099720109477"
               ],
               "filter": [
                 {
                   "name": "name",
                   "values": [
-                    "*AmazonLinux*"
+                    "ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64*"
                   ]
                 },
                 {
