@@ -12,7 +12,41 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-gqnypxswmch8i9y1j979n86k2y954gige3dk7gyqdzn5q"
+      bucket = "terraform-state-l77tegthfsq822u0y49b231bnjcxomx5re6rv9ml68cx4"
+}
+
+resource "aws_instance" "test" {
+      ami = data.aws_ami.amazon_latest.id
+      instance_type = "t2.micro"
+      lifecycle {
+        ignore_changes = [ami]
+      }
+      subnet_id = aws_subnet.devxp_vpc_subnet_public.id
+      associate_public_ip_address = true
+      vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
+      iam_instance_profile = aws_iam_instance_profile.test_iam_role_instance_profile.name
+}
+
+resource "aws_eip" "test_eip" {
+      instance = aws_instance.test.id
+      vpc = true
+}
+
+resource "aws_instance" "test-a" {
+      ami = data.aws_ami.amazon_latest.id
+      instance_type = "t2.micro"
+      lifecycle {
+        ignore_changes = [ami]
+      }
+      subnet_id = aws_subnet.devxp_vpc_subnet_public.id
+      associate_public_ip_address = true
+      vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
+      iam_instance_profile = aws_iam_instance_profile.test-a_iam_role_instance_profile.name
+}
+
+resource "aws_eip" "test-a_eip" {
+      instance = aws_instance.test-a.id
+      vpc = true
 }
 
 resource "aws_instance" "es" {
@@ -66,6 +100,16 @@ resource "aws_eip" "hhhttt_eip" {
       vpc = true
 }
 
+resource "aws_iam_instance_profile" "test_iam_role_instance_profile" {
+      name = "test_iam_role_instance_profile"
+      role = aws_iam_role.test_iam_role.name
+}
+
+resource "aws_iam_instance_profile" "test-a_iam_role_instance_profile" {
+      name = "test-a_iam_role_instance_profile"
+      role = aws_iam_role.test-a_iam_role.name
+}
+
 resource "aws_iam_instance_profile" "es_iam_role_instance_profile" {
       name = "es_iam_role_instance_profile"
       role = aws_iam_role.es_iam_role.name
@@ -79,6 +123,16 @@ resource "aws_iam_instance_profile" "io_iam_role_instance_profile" {
 resource "aws_iam_instance_profile" "hhhttt_iam_role_instance_profile" {
       name = "hhhttt_iam_role_instance_profile"
       role = aws_iam_role.hhhttt_iam_role.name
+}
+
+resource "aws_iam_role" "test_iam_role" {
+      name = "test_iam_role"
+      assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
+}
+
+resource "aws_iam_role" "test-a_iam_role" {
+      name = "test-a_iam_role"
+      assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
 resource "aws_iam_role" "es_iam_role" {
