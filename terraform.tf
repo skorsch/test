@@ -12,24 +12,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-4mh3sv0mtcdly2cg14g4ltg7eo2flzcp5ckic21j1gq35"
-}
-
-resource "aws_instance" "tetst" {
-      ami = data.aws_ami.amazon_latest.id
-      instance_type = "t2.micro"
-      lifecycle {
-        ignore_changes = [ami]
-      }
-      subnet_id = aws_subnet.devxp_vpc_subnet_public.id
-      associate_public_ip_address = true
-      vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
-      iam_instance_profile = aws_iam_instance_profile.tetst_iam_role_instance_profile.name
-}
-
-resource "aws_eip" "tetst_eip" {
-      instance = aws_instance.tetst.id
-      vpc = true
+      bucket = "terraform-state-grequ2hsf7604lr0wvclgvk2emn6iwt0y4qu96hzh279n"
 }
 
 resource "aws_instance" "tetst-a" {
@@ -100,11 +83,6 @@ resource "aws_eip" "hhhttt_eip" {
       vpc = true
 }
 
-resource "aws_iam_instance_profile" "tetst_iam_role_instance_profile" {
-      name = "tetst_iam_role_instance_profile"
-      role = aws_iam_role.tetst_iam_role.name
-}
-
 resource "aws_iam_instance_profile" "tetst-a_iam_role_instance_profile" {
       name = "tetst-a_iam_role_instance_profile"
       role = aws_iam_role.tetst-a_iam_role.name
@@ -123,11 +101,6 @@ resource "aws_iam_instance_profile" "io_iam_role_instance_profile" {
 resource "aws_iam_instance_profile" "hhhttt_iam_role_instance_profile" {
       name = "hhhttt_iam_role_instance_profile"
       role = aws_iam_role.hhhttt_iam_role.name
-}
-
-resource "aws_iam_role" "tetst_iam_role" {
-      name = "tetst_iam_role"
-      assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
 resource "aws_iam_role" "tetst-a_iam_role" {
