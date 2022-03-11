@@ -12,10 +12,10 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-4ryx9gb56ysmjpazkbc90xpwlchzssq0pv98z5l42d37o"
+      bucket = "terraform-state-joa5gqb7tkehfxzqmkepo4ersdfamvdkrtp92aqghw779"
 }
 
-resource "aws_instance" "servers" {
+resource "aws_instance" "server" {
       ami = data.aws_ami.amazon_latest.id
       instance_type = "t2.micro"
       lifecycle {
@@ -24,34 +24,34 @@ resource "aws_instance" "servers" {
       subnet_id = aws_subnet.devxp_vpc_subnet_public0.id
       associate_public_ip_address = true
       vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
-      iam_instance_profile = aws_iam_instance_profile.servers_iam_role_instance_profile.name
+      iam_instance_profile = aws_iam_instance_profile.server_iam_role_instance_profile.name
 }
 
-resource "aws_eip" "servers_eip" {
-      instance = aws_instance.servers.id
+resource "aws_eip" "server_eip" {
+      instance = aws_instance.server.id
       vpc = true
 }
 
-resource "aws_iam_user" "servers_iam" {
-      name = "servers_iam"
+resource "aws_iam_user" "server_iam" {
+      name = "server_iam"
 }
 
-resource "aws_iam_user_policy_attachment" "servers_iam_policy_attachment0" {
-      user = aws_iam_user.servers_iam.name
-      policy_arn = aws_iam_policy.servers_iam_policy0.arn
+resource "aws_iam_user_policy_attachment" "server_iam_policy_attachment0" {
+      user = aws_iam_user.server_iam.name
+      policy_arn = aws_iam_policy.server_iam_policy0.arn
 }
 
-resource "aws_iam_policy" "servers_iam_policy0" {
-      name = "servers_iam_policy0"
+resource "aws_iam_policy" "server_iam_policy0" {
+      name = "server_iam_policy0"
       path = "/"
-      policy = data.aws_iam_policy_document.servers_iam_policy_document.json
+      policy = data.aws_iam_policy_document.server_iam_policy_document.json
 }
 
-resource "aws_iam_access_key" "servers_iam_access_key" {
-      user = aws_iam_user.servers_iam.name
+resource "aws_iam_access_key" "server_iam_access_key" {
+      user = aws_iam_user.server_iam.name
 }
 
-resource "aws_instance" "servers-a" {
+resource "aws_instance" "server-a" {
       ami = data.aws_ami.amazon_latest.id
       instance_type = "t2.micro"
       lifecycle {
@@ -60,34 +60,34 @@ resource "aws_instance" "servers-a" {
       subnet_id = aws_subnet.devxp_vpc_subnet_public0.id
       associate_public_ip_address = true
       vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
-      iam_instance_profile = aws_iam_instance_profile.servers-a_iam_role_instance_profile.name
+      iam_instance_profile = aws_iam_instance_profile.server-a_iam_role_instance_profile.name
 }
 
-resource "aws_eip" "servers-a_eip" {
-      instance = aws_instance.servers-a.id
+resource "aws_eip" "server-a_eip" {
+      instance = aws_instance.server-a.id
       vpc = true
 }
 
-resource "aws_iam_user" "servers-a_iam" {
-      name = "servers-a_iam"
+resource "aws_iam_user" "server-a_iam" {
+      name = "server-a_iam"
 }
 
-resource "aws_iam_user_policy_attachment" "servers-a_iam_policy_attachment0" {
-      user = aws_iam_user.servers-a_iam.name
-      policy_arn = aws_iam_policy.servers-a_iam_policy0.arn
+resource "aws_iam_user_policy_attachment" "server-a_iam_policy_attachment0" {
+      user = aws_iam_user.server-a_iam.name
+      policy_arn = aws_iam_policy.server-a_iam_policy0.arn
 }
 
-resource "aws_iam_policy" "servers-a_iam_policy0" {
-      name = "servers-a_iam_policy0"
+resource "aws_iam_policy" "server-a_iam_policy0" {
+      name = "server-a_iam_policy0"
       path = "/"
-      policy = data.aws_iam_policy_document.servers-a_iam_policy_document.json
+      policy = data.aws_iam_policy_document.server-a_iam_policy_document.json
 }
 
-resource "aws_iam_access_key" "servers-a_iam_access_key" {
-      user = aws_iam_user.servers-a_iam.name
+resource "aws_iam_access_key" "server-a_iam_access_key" {
+      user = aws_iam_user.server-a_iam.name
 }
 
-resource "aws_instance" "servers-b" {
+resource "aws_instance" "server-b" {
       ami = data.aws_ami.amazon_latest.id
       instance_type = "t2.micro"
       lifecycle {
@@ -96,34 +96,34 @@ resource "aws_instance" "servers-b" {
       subnet_id = aws_subnet.devxp_vpc_subnet_public0.id
       associate_public_ip_address = true
       vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
-      iam_instance_profile = aws_iam_instance_profile.servers-b_iam_role_instance_profile.name
+      iam_instance_profile = aws_iam_instance_profile.server-b_iam_role_instance_profile.name
 }
 
-resource "aws_eip" "servers-b_eip" {
-      instance = aws_instance.servers-b.id
+resource "aws_eip" "server-b_eip" {
+      instance = aws_instance.server-b.id
       vpc = true
 }
 
-resource "aws_iam_user" "servers-b_iam" {
-      name = "servers-b_iam"
+resource "aws_iam_user" "server-b_iam" {
+      name = "server-b_iam"
 }
 
-resource "aws_iam_user_policy_attachment" "servers-b_iam_policy_attachment0" {
-      user = aws_iam_user.servers-b_iam.name
-      policy_arn = aws_iam_policy.servers-b_iam_policy0.arn
+resource "aws_iam_user_policy_attachment" "server-b_iam_policy_attachment0" {
+      user = aws_iam_user.server-b_iam.name
+      policy_arn = aws_iam_policy.server-b_iam_policy0.arn
 }
 
-resource "aws_iam_policy" "servers-b_iam_policy0" {
-      name = "servers-b_iam_policy0"
+resource "aws_iam_policy" "server-b_iam_policy0" {
+      name = "server-b_iam_policy0"
       path = "/"
-      policy = data.aws_iam_policy_document.servers-b_iam_policy_document.json
+      policy = data.aws_iam_policy_document.server-b_iam_policy_document.json
 }
 
-resource "aws_iam_access_key" "servers-b_iam_access_key" {
-      user = aws_iam_user.servers-b_iam.name
+resource "aws_iam_access_key" "server-b_iam_access_key" {
+      user = aws_iam_user.server-b_iam.name
 }
 
-resource "aws_instance" "servers-c" {
+resource "aws_instance" "server-c" {
       ami = data.aws_ami.amazon_latest.id
       instance_type = "t2.micro"
       lifecycle {
@@ -132,31 +132,31 @@ resource "aws_instance" "servers-c" {
       subnet_id = aws_subnet.devxp_vpc_subnet_public0.id
       associate_public_ip_address = true
       vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
-      iam_instance_profile = aws_iam_instance_profile.servers-c_iam_role_instance_profile.name
+      iam_instance_profile = aws_iam_instance_profile.server-c_iam_role_instance_profile.name
 }
 
-resource "aws_eip" "servers-c_eip" {
-      instance = aws_instance.servers-c.id
+resource "aws_eip" "server-c_eip" {
+      instance = aws_instance.server-c.id
       vpc = true
 }
 
-resource "aws_iam_user" "servers-c_iam" {
-      name = "servers-c_iam"
+resource "aws_iam_user" "server-c_iam" {
+      name = "server-c_iam"
 }
 
-resource "aws_iam_user_policy_attachment" "servers-c_iam_policy_attachment0" {
-      user = aws_iam_user.servers-c_iam.name
-      policy_arn = aws_iam_policy.servers-c_iam_policy0.arn
+resource "aws_iam_user_policy_attachment" "server-c_iam_policy_attachment0" {
+      user = aws_iam_user.server-c_iam.name
+      policy_arn = aws_iam_policy.server-c_iam_policy0.arn
 }
 
-resource "aws_iam_policy" "servers-c_iam_policy0" {
-      name = "servers-c_iam_policy0"
+resource "aws_iam_policy" "server-c_iam_policy0" {
+      name = "server-c_iam_policy0"
       path = "/"
-      policy = data.aws_iam_policy_document.servers-c_iam_policy_document.json
+      policy = data.aws_iam_policy_document.server-c_iam_policy_document.json
 }
 
-resource "aws_iam_access_key" "servers-c_iam_access_key" {
-      user = aws_iam_user.servers-c_iam.name
+resource "aws_iam_access_key" "server-c_iam_access_key" {
+      user = aws_iam_user.server-c_iam.name
 }
 
 resource "aws_s3_bucket" "devxp-class-storage" {
@@ -228,7 +228,7 @@ resource "aws_dynamodb_table" "database" {
       attribute {
         name = "username"
         type = "S"
-        _id = "622a79f83645ca0fd26e0f00"
+        _id = "622b92adfc2a80557134ee40"
       }
 }
 
@@ -251,104 +251,104 @@ resource "aws_iam_access_key" "database_iam_access_key" {
       user = aws_iam_user.database_iam.name
 }
 
-resource "aws_iam_instance_profile" "servers_iam_role_instance_profile" {
-      name = "servers_iam_role_instance_profile"
-      role = aws_iam_role.servers_iam_role.name
+resource "aws_iam_instance_profile" "server_iam_role_instance_profile" {
+      name = "server_iam_role_instance_profile"
+      role = aws_iam_role.server_iam_role.name
 }
 
-resource "aws_iam_instance_profile" "servers-a_iam_role_instance_profile" {
-      name = "servers-a_iam_role_instance_profile"
-      role = aws_iam_role.servers-a_iam_role.name
+resource "aws_iam_instance_profile" "server-a_iam_role_instance_profile" {
+      name = "server-a_iam_role_instance_profile"
+      role = aws_iam_role.server-a_iam_role.name
 }
 
-resource "aws_iam_instance_profile" "servers-b_iam_role_instance_profile" {
-      name = "servers-b_iam_role_instance_profile"
-      role = aws_iam_role.servers-b_iam_role.name
+resource "aws_iam_instance_profile" "server-b_iam_role_instance_profile" {
+      name = "server-b_iam_role_instance_profile"
+      role = aws_iam_role.server-b_iam_role.name
 }
 
-resource "aws_iam_instance_profile" "servers-c_iam_role_instance_profile" {
-      name = "servers-c_iam_role_instance_profile"
-      role = aws_iam_role.servers-c_iam_role.name
+resource "aws_iam_instance_profile" "server-c_iam_role_instance_profile" {
+      name = "server-c_iam_role_instance_profile"
+      role = aws_iam_role.server-c_iam_role.name
 }
 
-resource "aws_iam_role" "servers_iam_role" {
-      name = "servers_iam_role"
+resource "aws_iam_role" "server_iam_role" {
+      name = "server_iam_role"
       assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
-resource "aws_iam_role" "servers-a_iam_role" {
-      name = "servers-a_iam_role"
+resource "aws_iam_role" "server-a_iam_role" {
+      name = "server-a_iam_role"
       assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
-resource "aws_iam_role" "servers-b_iam_role" {
-      name = "servers-b_iam_role"
+resource "aws_iam_role" "server-b_iam_role" {
+      name = "server-b_iam_role"
       assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
-resource "aws_iam_role" "servers-c_iam_role" {
-      name = "servers-c_iam_role"
+resource "aws_iam_role" "server-c_iam_role" {
+      name = "server-c_iam_role"
       assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
-resource "aws_iam_role_policy_attachment" "servers_iam_role_devxp-class-storage_iam_policy0_attachment" {
+resource "aws_iam_role_policy_attachment" "server_iam_role_devxp-class-storage_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.devxp-class-storage_iam_policy0.arn
-      role = aws_iam_role.servers_iam_role.name
+      role = aws_iam_role.server_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "servers-a_iam_role_devxp-class-storage_iam_policy0_attachment" {
+resource "aws_iam_role_policy_attachment" "server-a_iam_role_devxp-class-storage_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.devxp-class-storage_iam_policy0.arn
-      role = aws_iam_role.servers-a_iam_role.name
+      role = aws_iam_role.server-a_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "servers-b_iam_role_devxp-class-storage_iam_policy0_attachment" {
+resource "aws_iam_role_policy_attachment" "server-b_iam_role_devxp-class-storage_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.devxp-class-storage_iam_policy0.arn
-      role = aws_iam_role.servers-b_iam_role.name
+      role = aws_iam_role.server-b_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "servers-c_iam_role_devxp-class-storage_iam_policy0_attachment" {
+resource "aws_iam_role_policy_attachment" "server-c_iam_role_devxp-class-storage_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.devxp-class-storage_iam_policy0.arn
-      role = aws_iam_role.servers-c_iam_role.name
+      role = aws_iam_role.server-c_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "servers_iam_role_devxp-class-storage-a_iam_policy0_attachment" {
+resource "aws_iam_role_policy_attachment" "server_iam_role_devxp-class-storage-a_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.devxp-class-storage-a_iam_policy0.arn
-      role = aws_iam_role.servers_iam_role.name
+      role = aws_iam_role.server_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "servers-a_iam_role_devxp-class-storage-a_iam_policy0_attachment" {
+resource "aws_iam_role_policy_attachment" "server-a_iam_role_devxp-class-storage-a_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.devxp-class-storage-a_iam_policy0.arn
-      role = aws_iam_role.servers-a_iam_role.name
+      role = aws_iam_role.server-a_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "servers-b_iam_role_devxp-class-storage-a_iam_policy0_attachment" {
+resource "aws_iam_role_policy_attachment" "server-b_iam_role_devxp-class-storage-a_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.devxp-class-storage-a_iam_policy0.arn
-      role = aws_iam_role.servers-b_iam_role.name
+      role = aws_iam_role.server-b_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "servers-c_iam_role_devxp-class-storage-a_iam_policy0_attachment" {
+resource "aws_iam_role_policy_attachment" "server-c_iam_role_devxp-class-storage-a_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.devxp-class-storage-a_iam_policy0.arn
-      role = aws_iam_role.servers-c_iam_role.name
+      role = aws_iam_role.server-c_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "servers_iam_role_database_iam_policy0_attachment" {
+resource "aws_iam_role_policy_attachment" "server_iam_role_database_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.database_iam_policy0.arn
-      role = aws_iam_role.servers_iam_role.name
+      role = aws_iam_role.server_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "servers-a_iam_role_database_iam_policy0_attachment" {
+resource "aws_iam_role_policy_attachment" "server-a_iam_role_database_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.database_iam_policy0.arn
-      role = aws_iam_role.servers-a_iam_role.name
+      role = aws_iam_role.server-a_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "servers-b_iam_role_database_iam_policy0_attachment" {
+resource "aws_iam_role_policy_attachment" "server-b_iam_role_database_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.database_iam_policy0.arn
-      role = aws_iam_role.servers-b_iam_role.name
+      role = aws_iam_role.server-b_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "servers-c_iam_role_database_iam_policy0_attachment" {
+resource "aws_iam_role_policy_attachment" "server-c_iam_role_database_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.database_iam_policy0.arn
-      role = aws_iam_role.servers-c_iam_role.name
+      role = aws_iam_role.server-c_iam_role.name
 }
 
 resource "aws_subnet" "devxp_vpc_subnet_public0" {
@@ -429,7 +429,7 @@ resource "aws_security_group" "devxp_security_group" {
       }
 }
 
-data "aws_iam_policy_document" "servers_iam_policy_document" {
+data "aws_iam_policy_document" "server_iam_policy_document" {
       statement {
         actions = ["ec2:RunInstances", "ec2:AssociateIamInstanceProfile", "ec2:ReplaceIamInstanceProfileAssociation"]
         effect = "Allow"
@@ -438,7 +438,7 @@ data "aws_iam_policy_document" "servers_iam_policy_document" {
       statement {
         actions = ["iam:PassRole"]
         effect = "Allow"
-        resources = [aws_instance.servers.arn]
+        resources = [aws_instance.server.arn]
       }
 }
 
@@ -455,7 +455,7 @@ data "aws_ami" "amazon_latest" {
       }
 }
 
-data "aws_iam_policy_document" "servers-a_iam_policy_document" {
+data "aws_iam_policy_document" "server-a_iam_policy_document" {
       statement {
         actions = ["ec2:RunInstances", "ec2:AssociateIamInstanceProfile", "ec2:ReplaceIamInstanceProfileAssociation"]
         effect = "Allow"
@@ -464,11 +464,11 @@ data "aws_iam_policy_document" "servers-a_iam_policy_document" {
       statement {
         actions = ["iam:PassRole"]
         effect = "Allow"
-        resources = [aws_instance.servers-a.arn]
+        resources = [aws_instance.server-a.arn]
       }
 }
 
-data "aws_iam_policy_document" "servers-b_iam_policy_document" {
+data "aws_iam_policy_document" "server-b_iam_policy_document" {
       statement {
         actions = ["ec2:RunInstances", "ec2:AssociateIamInstanceProfile", "ec2:ReplaceIamInstanceProfileAssociation"]
         effect = "Allow"
@@ -477,11 +477,11 @@ data "aws_iam_policy_document" "servers-b_iam_policy_document" {
       statement {
         actions = ["iam:PassRole"]
         effect = "Allow"
-        resources = [aws_instance.servers-b.arn]
+        resources = [aws_instance.server-b.arn]
       }
 }
 
-data "aws_iam_policy_document" "servers-c_iam_policy_document" {
+data "aws_iam_policy_document" "server-c_iam_policy_document" {
       statement {
         actions = ["ec2:RunInstances", "ec2:AssociateIamInstanceProfile", "ec2:ReplaceIamInstanceProfileAssociation"]
         effect = "Allow"
@@ -490,7 +490,7 @@ data "aws_iam_policy_document" "servers-c_iam_policy_document" {
       statement {
         actions = ["iam:PassRole"]
         effect = "Allow"
-        resources = [aws_instance.servers-c.arn]
+        resources = [aws_instance.server-c.arn]
       }
 }
 
