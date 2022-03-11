@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-zvu53qkv4kh71nromai8aa405aux0c3gfeqhd55s8cc32"
+      bucket = "terraform-state-2pgmtj8j7lf8kjbgynjosv5y2l8oersl03cnz9rjxocts"
 }
 
 resource "aws_instance" "server" {
@@ -159,62 +159,62 @@ resource "aws_iam_access_key" "server-c_iam_access_key" {
       user = aws_iam_user.server-c_iam.name
 }
 
-resource "aws_s3_bucket" "devxp-class-storage" {
-      bucket = "devxp-class-storage"
+resource "aws_s3_bucket" "storage-oeijfeijeo" {
+      bucket = "storage-oeijfeijeo"
 }
 
-resource "aws_s3_bucket_public_access_block" "devxp-class-storage_access" {
-      bucket = aws_s3_bucket.devxp-class-storage.id
+resource "aws_s3_bucket_public_access_block" "storage-oeijfeijeo_access" {
+      bucket = aws_s3_bucket.storage-oeijfeijeo.id
       block_public_acls = true
       block_public_policy = true
 }
 
-resource "aws_iam_user" "devxp-class-storage_iam" {
-      name = "devxp-class-storage_iam"
+resource "aws_iam_user" "storage-oeijfeijeo_iam" {
+      name = "storage-oeijfeijeo_iam"
 }
 
-resource "aws_iam_user_policy_attachment" "devxp-class-storage_iam_policy_attachment0" {
-      user = aws_iam_user.devxp-class-storage_iam.name
-      policy_arn = aws_iam_policy.devxp-class-storage_iam_policy0.arn
+resource "aws_iam_user_policy_attachment" "storage-oeijfeijeo_iam_policy_attachment0" {
+      user = aws_iam_user.storage-oeijfeijeo_iam.name
+      policy_arn = aws_iam_policy.storage-oeijfeijeo_iam_policy0.arn
 }
 
-resource "aws_iam_policy" "devxp-class-storage_iam_policy0" {
-      name = "devxp-class-storage_iam_policy0"
+resource "aws_iam_policy" "storage-oeijfeijeo_iam_policy0" {
+      name = "storage-oeijfeijeo_iam_policy0"
       path = "/"
-      policy = data.aws_iam_policy_document.devxp-class-storage_iam_policy_document.json
+      policy = data.aws_iam_policy_document.storage-oeijfeijeo_iam_policy_document.json
 }
 
-resource "aws_iam_access_key" "devxp-class-storage_iam_access_key" {
-      user = aws_iam_user.devxp-class-storage_iam.name
+resource "aws_iam_access_key" "storage-oeijfeijeo_iam_access_key" {
+      user = aws_iam_user.storage-oeijfeijeo_iam.name
 }
 
-resource "aws_s3_bucket" "devxp-class-storage-a" {
-      bucket = "devxp-class-storage-a"
+resource "aws_s3_bucket" "storage-oeijfeijeo-a" {
+      bucket = "storage-oeijfeijeo-a"
 }
 
-resource "aws_s3_bucket_public_access_block" "devxp-class-storage-a_access" {
-      bucket = aws_s3_bucket.devxp-class-storage-a.id
+resource "aws_s3_bucket_public_access_block" "storage-oeijfeijeo-a_access" {
+      bucket = aws_s3_bucket.storage-oeijfeijeo-a.id
       block_public_acls = true
       block_public_policy = true
 }
 
-resource "aws_iam_user" "devxp-class-storage-a_iam" {
-      name = "devxp-class-storage-a_iam"
+resource "aws_iam_user" "storage-oeijfeijeo-a_iam" {
+      name = "storage-oeijfeijeo-a_iam"
 }
 
-resource "aws_iam_user_policy_attachment" "devxp-class-storage-a_iam_policy_attachment0" {
-      user = aws_iam_user.devxp-class-storage-a_iam.name
-      policy_arn = aws_iam_policy.devxp-class-storage-a_iam_policy0.arn
+resource "aws_iam_user_policy_attachment" "storage-oeijfeijeo-a_iam_policy_attachment0" {
+      user = aws_iam_user.storage-oeijfeijeo-a_iam.name
+      policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
 }
 
-resource "aws_iam_policy" "devxp-class-storage-a_iam_policy0" {
-      name = "devxp-class-storage-a_iam_policy0"
+resource "aws_iam_policy" "storage-oeijfeijeo-a_iam_policy0" {
+      name = "storage-oeijfeijeo-a_iam_policy0"
       path = "/"
-      policy = data.aws_iam_policy_document.devxp-class-storage-a_iam_policy_document.json
+      policy = data.aws_iam_policy_document.storage-oeijfeijeo-a_iam_policy_document.json
 }
 
-resource "aws_iam_access_key" "devxp-class-storage-a_iam_access_key" {
-      user = aws_iam_user.devxp-class-storage-a_iam.name
+resource "aws_iam_access_key" "storage-oeijfeijeo-a_iam_access_key" {
+      user = aws_iam_user.storage-oeijfeijeo-a_iam.name
 }
 
 resource "aws_dynamodb_table" "database" {
@@ -228,7 +228,7 @@ resource "aws_dynamodb_table" "database" {
       attribute {
         name = "username"
         type = "S"
-        _id = "622bc29389f250e9a1d2021b"
+        _id = "622bddb928d802b90f6549b1"
       }
 }
 
@@ -291,43 +291,43 @@ resource "aws_iam_role" "server-c_iam_role" {
       assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
-resource "aws_iam_role_policy_attachment" "server_iam_role_devxp-class-storage_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.devxp-class-storage_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server_iam_role_storage-oeijfeijeo_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-oeijfeijeo_iam_policy0.arn
       role = aws_iam_role.server_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server-a_iam_role_devxp-class-storage_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.devxp-class-storage_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server-a_iam_role_storage-oeijfeijeo_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-oeijfeijeo_iam_policy0.arn
       role = aws_iam_role.server-a_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server-b_iam_role_devxp-class-storage_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.devxp-class-storage_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server-b_iam_role_storage-oeijfeijeo_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-oeijfeijeo_iam_policy0.arn
       role = aws_iam_role.server-b_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server-c_iam_role_devxp-class-storage_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.devxp-class-storage_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server-c_iam_role_storage-oeijfeijeo_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-oeijfeijeo_iam_policy0.arn
       role = aws_iam_role.server-c_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server_iam_role_devxp-class-storage-a_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.devxp-class-storage-a_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server_iam_role_storage-oeijfeijeo-a_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
       role = aws_iam_role.server_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server-a_iam_role_devxp-class-storage-a_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.devxp-class-storage-a_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server-a_iam_role_storage-oeijfeijeo-a_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
       role = aws_iam_role.server-a_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server-b_iam_role_devxp-class-storage-a_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.devxp-class-storage-a_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server-b_iam_role_storage-oeijfeijeo-a_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
       role = aws_iam_role.server-b_iam_role.name
 }
 
-resource "aws_iam_role_policy_attachment" "server-c_iam_role_devxp-class-storage-a_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.devxp-class-storage-a_iam_policy0.arn
+resource "aws_iam_role_policy_attachment" "server-c_iam_role_storage-oeijfeijeo-a_iam_policy0_attachment" {
+      policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
       role = aws_iam_role.server-c_iam_role.name
 }
 
@@ -494,7 +494,7 @@ data "aws_iam_policy_document" "server-c_iam_policy_document" {
       }
 }
 
-data "aws_iam_policy_document" "devxp-class-storage_iam_policy_document" {
+data "aws_iam_policy_document" "storage-oeijfeijeo_iam_policy_document" {
       statement {
         actions = ["s3:ListAllMyBuckets"]
         effect = "Allow"
@@ -503,11 +503,11 @@ data "aws_iam_policy_document" "devxp-class-storage_iam_policy_document" {
       statement {
         actions = ["s3:*"]
         effect = "Allow"
-        resources = [aws_s3_bucket.devxp-class-storage.arn]
+        resources = [aws_s3_bucket.storage-oeijfeijeo.arn]
       }
 }
 
-data "aws_iam_policy_document" "devxp-class-storage-a_iam_policy_document" {
+data "aws_iam_policy_document" "storage-oeijfeijeo-a_iam_policy_document" {
       statement {
         actions = ["s3:ListAllMyBuckets"]
         effect = "Allow"
@@ -516,7 +516,7 @@ data "aws_iam_policy_document" "devxp-class-storage-a_iam_policy_document" {
       statement {
         actions = ["s3:*"]
         effect = "Allow"
-        resources = [aws_s3_bucket.devxp-class-storage-a.arn]
+        resources = [aws_s3_bucket.storage-oeijfeijeo-a.arn]
       }
 }
 
