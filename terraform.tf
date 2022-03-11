@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-joa5gqb7tkehfxzqmkepo4ersdfamvdkrtp92aqghw779"
+      bucket = "terraform-state-zvu53qkv4kh71nromai8aa405aux0c3gfeqhd55s8cc32"
 }
 
 resource "aws_instance" "server" {
@@ -228,7 +228,7 @@ resource "aws_dynamodb_table" "database" {
       attribute {
         name = "username"
         type = "S"
-        _id = "622b92adfc2a80557134ee40"
+        _id = "622bc29389f250e9a1d2021b"
       }
 }
 
