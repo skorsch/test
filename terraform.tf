@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-2pgmtj8j7lf8kjbgynjosv5y2l8oersl03cnz9rjxocts"
+      bucket = "terraform-state-pmyeb6w2daxzx3mw82yhq9hnjspuxnloc57g16sbc122u"
 }
 
 resource "aws_instance" "server" {
@@ -28,8 +28,8 @@ resource "aws_instance" "server" {
 }
 
 resource "aws_eip" "server_eip" {
-      instance = aws_instance.server.id
       vpc = true
+      instance = aws_instance.server.id
 }
 
 resource "aws_iam_user" "server_iam" {
@@ -64,8 +64,8 @@ resource "aws_instance" "server-a" {
 }
 
 resource "aws_eip" "server-a_eip" {
-      instance = aws_instance.server-a.id
       vpc = true
+      instance = aws_instance.server-a.id
 }
 
 resource "aws_iam_user" "server-a_iam" {
@@ -100,8 +100,8 @@ resource "aws_instance" "server-b" {
 }
 
 resource "aws_eip" "server-b_eip" {
-      instance = aws_instance.server-b.id
       vpc = true
+      instance = aws_instance.server-b.id
 }
 
 resource "aws_iam_user" "server-b_iam" {
@@ -136,8 +136,8 @@ resource "aws_instance" "server-c" {
 }
 
 resource "aws_eip" "server-c_eip" {
-      instance = aws_instance.server-c.id
       vpc = true
+      instance = aws_instance.server-c.id
 }
 
 resource "aws_iam_user" "server-c_iam" {
@@ -157,35 +157,6 @@ resource "aws_iam_policy" "server-c_iam_policy0" {
 
 resource "aws_iam_access_key" "server-c_iam_access_key" {
       user = aws_iam_user.server-c_iam.name
-}
-
-resource "aws_s3_bucket" "storage-oeijfeijeo" {
-      bucket = "storage-oeijfeijeo"
-}
-
-resource "aws_s3_bucket_public_access_block" "storage-oeijfeijeo_access" {
-      bucket = aws_s3_bucket.storage-oeijfeijeo.id
-      block_public_acls = true
-      block_public_policy = true
-}
-
-resource "aws_iam_user" "storage-oeijfeijeo_iam" {
-      name = "storage-oeijfeijeo_iam"
-}
-
-resource "aws_iam_user_policy_attachment" "storage-oeijfeijeo_iam_policy_attachment0" {
-      user = aws_iam_user.storage-oeijfeijeo_iam.name
-      policy_arn = aws_iam_policy.storage-oeijfeijeo_iam_policy0.arn
-}
-
-resource "aws_iam_policy" "storage-oeijfeijeo_iam_policy0" {
-      name = "storage-oeijfeijeo_iam_policy0"
-      path = "/"
-      policy = data.aws_iam_policy_document.storage-oeijfeijeo_iam_policy_document.json
-}
-
-resource "aws_iam_access_key" "storage-oeijfeijeo_iam_access_key" {
-      user = aws_iam_user.storage-oeijfeijeo_iam.name
 }
 
 resource "aws_s3_bucket" "storage-oeijfeijeo-a" {
@@ -215,40 +186,6 @@ resource "aws_iam_policy" "storage-oeijfeijeo-a_iam_policy0" {
 
 resource "aws_iam_access_key" "storage-oeijfeijeo-a_iam_access_key" {
       user = aws_iam_user.storage-oeijfeijeo-a_iam.name
-}
-
-resource "aws_dynamodb_table" "database" {
-      name = "database"
-      hash_key = "username"
-      billing_mode = "PAY_PER_REQUEST"
-      ttl {
-        attribute_name = "TimeToExist"
-        enabled = true
-      }
-      attribute {
-        name = "username"
-        type = "S"
-        _id = "622bddb928d802b90f6549b1"
-      }
-}
-
-resource "aws_iam_user" "database_iam" {
-      name = "database_iam"
-}
-
-resource "aws_iam_user_policy_attachment" "database_iam_policy_attachment0" {
-      user = aws_iam_user.database_iam.name
-      policy_arn = aws_iam_policy.database_iam_policy0.arn
-}
-
-resource "aws_iam_policy" "database_iam_policy0" {
-      name = "database_iam_policy0"
-      path = "/"
-      policy = data.aws_iam_policy_document.database_iam_policy_document.json
-}
-
-resource "aws_iam_access_key" "database_iam_access_key" {
-      user = aws_iam_user.database_iam.name
 }
 
 resource "aws_iam_instance_profile" "server_iam_role_instance_profile" {
@@ -291,26 +228,6 @@ resource "aws_iam_role" "server-c_iam_role" {
       assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
-resource "aws_iam_role_policy_attachment" "server_iam_role_storage-oeijfeijeo_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage-oeijfeijeo_iam_policy0.arn
-      role = aws_iam_role.server_iam_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "server-a_iam_role_storage-oeijfeijeo_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage-oeijfeijeo_iam_policy0.arn
-      role = aws_iam_role.server-a_iam_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "server-b_iam_role_storage-oeijfeijeo_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage-oeijfeijeo_iam_policy0.arn
-      role = aws_iam_role.server-b_iam_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "server-c_iam_role_storage-oeijfeijeo_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage-oeijfeijeo_iam_policy0.arn
-      role = aws_iam_role.server-c_iam_role.name
-}
-
 resource "aws_iam_role_policy_attachment" "server_iam_role_storage-oeijfeijeo-a_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
       role = aws_iam_role.server_iam_role.name
@@ -328,26 +245,6 @@ resource "aws_iam_role_policy_attachment" "server-b_iam_role_storage-oeijfeijeo-
 
 resource "aws_iam_role_policy_attachment" "server-c_iam_role_storage-oeijfeijeo-a_iam_policy0_attachment" {
       policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
-      role = aws_iam_role.server-c_iam_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "server_iam_role_database_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.database_iam_policy0.arn
-      role = aws_iam_role.server_iam_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "server-a_iam_role_database_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.database_iam_policy0.arn
-      role = aws_iam_role.server-a_iam_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "server-b_iam_role_database_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.database_iam_policy0.arn
-      role = aws_iam_role.server-b_iam_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "server-c_iam_role_database_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.database_iam_policy0.arn
       role = aws_iam_role.server-c_iam_role.name
 }
 
@@ -494,19 +391,6 @@ data "aws_iam_policy_document" "server-c_iam_policy_document" {
       }
 }
 
-data "aws_iam_policy_document" "storage-oeijfeijeo_iam_policy_document" {
-      statement {
-        actions = ["s3:ListAllMyBuckets"]
-        effect = "Allow"
-        resources = ["arn:aws:s3:::*"]
-      }
-      statement {
-        actions = ["s3:*"]
-        effect = "Allow"
-        resources = [aws_s3_bucket.storage-oeijfeijeo.arn]
-      }
-}
-
 data "aws_iam_policy_document" "storage-oeijfeijeo-a_iam_policy_document" {
       statement {
         actions = ["s3:ListAllMyBuckets"]
@@ -520,16 +404,5 @@ data "aws_iam_policy_document" "storage-oeijfeijeo-a_iam_policy_document" {
       }
 }
 
-data "aws_iam_policy_document" "database_iam_policy_document" {
-      statement {
-        actions = ["dynamodb:DescribeTable", "dynamodb:Query", "dynamodb:Scan", "dynamodb:BatchGet*", "dynamodb:DescribeStream", "dynamodb:DescribeTable", "dynamodb:Get*", "dynamodb:Query", "dynamodb:Scan", "dynamodb:BatchWrite*", "dynamodb:CreateTable", "dynamodb:Delete*", "dynamodb:Update*", "dynamodb:PutItem"]
-        effect = "Allow"
-        resources = [aws_dynamodb_table.database.arn]
-      }
-      statement {
-        actions = ["dynamodb:List*", "dynamodb:DescribeReservedCapacity*", "dynamodb:DescribeLimits", "dynamodb:DescribeTimeToLive"]
-        effect = "Allow"
-        resources = ["*"]
-      }
-}
+
 
