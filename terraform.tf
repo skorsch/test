@@ -159,35 +159,6 @@ resource "aws_iam_access_key" "server-c_iam_access_key" {
       user = aws_iam_user.server-c_iam.name
 }
 
-resource "aws_s3_bucket" "storage-oeijfeijeo-a" {
-      bucket = "storage-oeijfeijeo-a"
-}
-
-resource "aws_s3_bucket_public_access_block" "storage-oeijfeijeo-a_access" {
-      bucket = aws_s3_bucket.storage-oeijfeijeo-a.id
-      block_public_acls = true
-      block_public_policy = true
-}
-
-resource "aws_iam_user" "storage-oeijfeijeo-a_iam" {
-      name = "storage-oeijfeijeo-a_iam"
-}
-
-resource "aws_iam_user_policy_attachment" "storage-oeijfeijeo-a_iam_policy_attachment0" {
-      user = aws_iam_user.storage-oeijfeijeo-a_iam.name
-      policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
-}
-
-resource "aws_iam_policy" "storage-oeijfeijeo-a_iam_policy0" {
-      name = "storage-oeijfeijeo-a_iam_policy0"
-      path = "/"
-      policy = data.aws_iam_policy_document.storage-oeijfeijeo-a_iam_policy_document.json
-}
-
-resource "aws_iam_access_key" "storage-oeijfeijeo-a_iam_access_key" {
-      user = aws_iam_user.storage-oeijfeijeo-a_iam.name
-}
-
 resource "aws_iam_instance_profile" "server_iam_role_instance_profile" {
       name = "server_iam_role_instance_profile"
       role = aws_iam_role.server_iam_role.name
@@ -226,26 +197,6 @@ resource "aws_iam_role" "server-b_iam_role" {
 resource "aws_iam_role" "server-c_iam_role" {
       name = "server-c_iam_role"
       assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
-}
-
-resource "aws_iam_role_policy_attachment" "server_iam_role_storage-oeijfeijeo-a_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
-      role = aws_iam_role.server_iam_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "server-a_iam_role_storage-oeijfeijeo-a_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
-      role = aws_iam_role.server-a_iam_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "server-b_iam_role_storage-oeijfeijeo-a_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
-      role = aws_iam_role.server-b_iam_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "server-c_iam_role_storage-oeijfeijeo-a_iam_policy0_attachment" {
-      policy_arn = aws_iam_policy.storage-oeijfeijeo-a_iam_policy0.arn
-      role = aws_iam_role.server-c_iam_role.name
 }
 
 resource "aws_subnet" "devxp_vpc_subnet_public0" {
@@ -388,19 +339,6 @@ data "aws_iam_policy_document" "server-c_iam_policy_document" {
         actions = ["iam:PassRole"]
         effect = "Allow"
         resources = [aws_instance.server-c.arn]
-      }
-}
-
-data "aws_iam_policy_document" "storage-oeijfeijeo-a_iam_policy_document" {
-      statement {
-        actions = ["s3:ListAllMyBuckets"]
-        effect = "Allow"
-        resources = ["arn:aws:s3:::*"]
-      }
-      statement {
-        actions = ["s3:*"]
-        effect = "Allow"
-        resources = [aws_s3_bucket.storage-oeijfeijeo-a.arn]
       }
 }
 
