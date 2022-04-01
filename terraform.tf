@@ -15,42 +15,6 @@ resource "aws_s3_bucket" "terraform_backend_bucket" {
       bucket = "terraform-state-pmyeb6w2daxzx3mw82yhq9hnjspuxnloc57g16sbc122u"
 }
 
-resource "aws_instance" "server" {
-      ami = data.aws_ami.amazon_latest.id
-      instance_type = "t2.micro"
-      lifecycle {
-        ignore_changes = [ami]
-      }
-      subnet_id = aws_subnet.devxp_vpc_subnet_public0.id
-      associate_public_ip_address = true
-      vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
-      iam_instance_profile = aws_iam_instance_profile.server_iam_role_instance_profile.name
-}
-
-resource "aws_eip" "server_eip" {
-      vpc = true
-      instance = aws_instance.server.id
-}
-
-resource "aws_iam_user" "server_iam" {
-      name = "server_iam"
-}
-
-resource "aws_iam_user_policy_attachment" "server_iam_policy_attachment0" {
-      user = aws_iam_user.server_iam.name
-      policy_arn = aws_iam_policy.server_iam_policy0.arn
-}
-
-resource "aws_iam_policy" "server_iam_policy0" {
-      name = "server_iam_policy0"
-      path = "/"
-      policy = data.aws_iam_policy_document.server_iam_policy_document.json
-}
-
-resource "aws_iam_access_key" "server_iam_access_key" {
-      user = aws_iam_user.server_iam.name
-}
-
 resource "aws_instance" "server-a" {
       ami = data.aws_ami.amazon_latest.id
       instance_type = "t2.micro"
@@ -159,11 +123,6 @@ resource "aws_iam_access_key" "server-c_iam_access_key" {
       user = aws_iam_user.server-c_iam.name
 }
 
-resource "aws_iam_instance_profile" "server_iam_role_instance_profile" {
-      name = "server_iam_role_instance_profile"
-      role = aws_iam_role.server_iam_role.name
-}
-
 resource "aws_iam_instance_profile" "server-a_iam_role_instance_profile" {
       name = "server-a_iam_role_instance_profile"
       role = aws_iam_role.server-a_iam_role.name
@@ -177,11 +136,6 @@ resource "aws_iam_instance_profile" "server-b_iam_role_instance_profile" {
 resource "aws_iam_instance_profile" "server-c_iam_role_instance_profile" {
       name = "server-c_iam_role_instance_profile"
       role = aws_iam_role.server-c_iam_role.name
-}
-
-resource "aws_iam_role" "server_iam_role" {
-      name = "server_iam_role"
-      assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
 resource "aws_iam_role" "server-a_iam_role" {
@@ -277,7 +231,7 @@ resource "aws_security_group" "devxp_security_group" {
       }
 }
 
-data "aws_iam_policy_document" "server_iam_policy_document" {
+data "aws_iam_policy_document" "server-a_iam_policy_document" {
       statement {
         actions = ["ec2:RunInstances", "ec2:AssociateIamInstanceProfile", "ec2:ReplaceIamInstanceProfileAssociation"]
         effect = "Allow"
@@ -286,7 +240,7 @@ data "aws_iam_policy_document" "server_iam_policy_document" {
       statement {
         actions = ["iam:PassRole"]
         effect = "Allow"
-        resources = [aws_instance.server.arn]
+        resources = [aws_instance.server-a.arn]
       }
 }
 
@@ -300,19 +254,6 @@ data "aws_ami" "amazon_latest" {
       filter {
         name = "virtualization-type"
         values = ["hvm"]
-      }
-}
-
-data "aws_iam_policy_document" "server-a_iam_policy_document" {
-      statement {
-        actions = ["ec2:RunInstances", "ec2:AssociateIamInstanceProfile", "ec2:ReplaceIamInstanceProfileAssociation"]
-        effect = "Allow"
-        resources = ["arn:aws:ec2:::*"]
-      }
-      statement {
-        actions = ["iam:PassRole"]
-        effect = "Allow"
-        resources = [aws_instance.server-a.arn]
       }
 }
 
