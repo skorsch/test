@@ -51,59 +51,13 @@ resource "aws_iam_access_key" "server-a_iam_access_key" {
       user = aws_iam_user.server-a_iam.name
 }
 
-resource "aws_instance" "server-b" {
-      ami = data.aws_ami.amazon_latest.id
-      instance_type = "t2.micro"
-      lifecycle {
-        ignore_changes = [ami]
-      }
-      subnet_id = aws_subnet.devxp_vpc_subnet_public0.id
-      associate_public_ip_address = true
-      vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
-      iam_instance_profile = aws_iam_instance_profile.server-b_iam_role_instance_profile.name
-}
-
-resource "aws_eip" "server-b_eip" {
-      vpc = true
-      instance = aws_instance.server-b.id
-}
-
-resource "aws_iam_user" "server-b_iam" {
-      name = "server-b_iam"
-}
-
-resource "aws_iam_user_policy_attachment" "server-b_iam_policy_attachment0" {
-      user = aws_iam_user.server-b_iam.name
-      policy_arn = aws_iam_policy.server-b_iam_policy0.arn
-}
-
-resource "aws_iam_policy" "server-b_iam_policy0" {
-      name = "server-b_iam_policy0"
-      path = "/"
-      policy = data.aws_iam_policy_document.server-b_iam_policy_document.json
-}
-
-resource "aws_iam_access_key" "server-b_iam_access_key" {
-      user = aws_iam_user.server-b_iam.name
-}
-
 resource "aws_iam_instance_profile" "server-a_iam_role_instance_profile" {
       name = "server-a_iam_role_instance_profile"
       role = aws_iam_role.server-a_iam_role.name
 }
 
-resource "aws_iam_instance_profile" "server-b_iam_role_instance_profile" {
-      name = "server-b_iam_role_instance_profile"
-      role = aws_iam_role.server-b_iam_role.name
-}
-
 resource "aws_iam_role" "server-a_iam_role" {
       name = "server-a_iam_role"
-      assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
-}
-
-resource "aws_iam_role" "server-b_iam_role" {
-      name = "server-b_iam_role"
       assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
 }
 
@@ -208,19 +162,6 @@ data "aws_ami" "amazon_latest" {
       filter {
         name = "virtualization-type"
         values = ["hvm"]
-      }
-}
-
-data "aws_iam_policy_document" "server-b_iam_policy_document" {
-      statement {
-        actions = ["ec2:RunInstances", "ec2:AssociateIamInstanceProfile", "ec2:ReplaceIamInstanceProfileAssociation"]
-        effect = "Allow"
-        resources = ["arn:aws:ec2:::*"]
-      }
-      statement {
-        actions = ["iam:PassRole"]
-        effect = "Allow"
-        resources = [aws_instance.server-b.arn]
       }
 }
 
