@@ -1,20 +1,109 @@
 terraform {
   required_providers {
-    aws =  {
-    source = "hashicorp/aws"
-    version = ">= 2.7.0"
+    google =  {
+    source = "hashicorp/google"
+    version = ">= 4.10.0"
     }
   }
 }
 
-provider "aws" {
-    region = "us-west-2"
+provider "google" {
+    project = "devxp-339721"
+    region = "us-west1"
 }
 
-resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-pmyeb6w2daxzx3mw82yhq9hnjspuxnloc57g16sbc122u"
+resource "google_storage_bucket" "terraform_backend_bucket" {
+      location = "us-west1"
+      name = "terraform-state-6cl11tze0oadigx3o42ngfgnbp1vnasg79722qsdt0hsm"
+      project = "devxp-339721"
+}
+
+resource "google_compute_instance" "gce-yiqx" {
+      name = "gce-yiqx"
+      machine_type = "f1-micro"
+      zone = "us-west1-a"
+      network_interface {
+        network = "default"
+      }
+      boot_disk {
+        initialize_params {
+          image = "ubuntu-2004-focal-v20220204"
+        }
+      }
+      project = "devxp-339721"
+}
+
+resource "google_project_service" "gce-yiqx-service" {
+      disable_on_destroy = false
+      service = "compute.googleapis.com"
+}
+
+resource "google_cloud_run_service" "cloud-run-dkqd" {
+      name = "cloud-run-dkqd"
+      location = "us-west1"
+      autogenerate_revision_name = true
+      template {
+        spec {
+          containers {
+            image = "gcr.io/devxp-339721/devxp:b79f5c8"
+            env {
+              name = "CONNECTION_STRING"
+              value = var.CONNECTION_STRING
+            }
+            env {
+              name = "GITHUB_CLIENT_ID"
+              value = var.GITHUB_CLIENT_ID
+            }
+            env {
+              name = "GITHUB_CLIENT_SECRET"
+              value = var.GITHUB_CLIENT_SECRET
+            }
+          }
+        }
+      }
+      traffic {
+        percent = 100
+        latest_revision = true
+      }
+      depends_on = [google_project_service.cloud-run-dkqd-service]
+}
+
+resource "google_cloud_run_service_iam_member" "cloud-run-dkqd-iam" {
+      service = google_cloud_run_service.cloud-run-dkqd.name
+      location = google_cloud_run_service.cloud-run-dkqd.location
+      project = google_cloud_run_service.cloud-run-dkqd.project
+      role = "roles/run.invoker"
+      member = "allUsers"
+}
+
+resource "google_project_service" "cloud-run-dkqd-service" {
+      disable_on_destroy = false
+      service = "run.googleapis.com"
+}
+
+resource "google_storage_bucket" "storage-bucket-wzml-krnf-efwh-vctc-bnrv" {
+      name = "storage-bucket-wzml-krnf-efwh-vctc-bnrv"
+      location = "us-west1"
+      project = "devxp-339721"
 }
 
 
+variable "CONNECTION_STRING" {
+    type = string
+    sensitive = true
+}
 
+variable "GITHUB_CLIENT_ID" {
+    type = string
+    sensitive = true
+}
+
+variable "GITHUB_CLIENT_SECRET" {
+    type = string
+    sensitive = true
+}
+
+output "cloud-run-dkqd-service-url" {
+    value = google_cloud_run_service.cloud-run-dkqd.status[0].url
+}
 
