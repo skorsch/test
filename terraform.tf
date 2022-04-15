@@ -1,193 +1,109 @@
 terraform {
   required_providers {
-    aws =  {
-    source = "hashicorp/aws"
-    version = ">= 2.7.0"
+    google =  {
+    source = "hashicorp/google"
+    version = ">= 4.10.0"
     }
   }
 }
 
-provider "aws" {
-    region = "us-west-2"
+provider "google" {
+    project = "devxp-339721"
+    region = "us-west1"
 }
 
-resource "aws_s3_bucket" "terraform_backend_bucket" {
-      bucket = "terraform-state-gqnypxswmch8i9y1j979n86k2y954gige3dk7gyqdzn5q"
+resource "google_storage_bucket" "terraform_backend_bucket" {
+      location = "us-west1"
+      name = "terraform-state-6m95e9hom6j9pw5hlhh0xotb0ec443hre4erdq1y7hnct"
+      project = "devxp-339721"
 }
 
-resource "aws_instance" "es" {
-      ami = data.aws_ami.amazon_latest.id
-      instance_type = "t2.micro"
-      lifecycle {
-        ignore_changes = [ami]
+resource "google_compute_instance" "gce-yiqx" {
+      name = "gce-yiqx"
+      machine_type = "f1-micro"
+      zone = "us-west1-a"
+      network_interface {
+        network = "default"
       }
-      subnet_id = aws_subnet.devxp_vpc_subnet_public.id
-      associate_public_ip_address = true
-      vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
-      iam_instance_profile = aws_iam_instance_profile.es_iam_role_instance_profile.name
-}
-
-resource "aws_eip" "es_eip" {
-      instance = aws_instance.es.id
-      vpc = true
-}
-
-resource "aws_instance" "io" {
-      ami = data.aws_ami.ubuntu_latest.id
-      instance_type = "t2.micro"
-      lifecycle {
-        ignore_changes = [ami]
+      boot_disk {
+        initialize_params {
+          image = "ubuntu-2004-focal-v20220204"
+        }
       }
-      subnet_id = aws_subnet.devxp_vpc_subnet_public.id
-      associate_public_ip_address = true
-      vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
-      iam_instance_profile = aws_iam_instance_profile.io_iam_role_instance_profile.name
+      project = "devxp-339721"
 }
 
-resource "aws_eip" "io_eip" {
-      instance = aws_instance.io.id
-      vpc = true
+resource "google_project_service" "gce-yiqx-service" {
+      disable_on_destroy = false
+      service = "compute.googleapis.com"
 }
 
-resource "aws_instance" "hhhttt" {
-      ami = data.aws_ami.amazon_latest.id
-      instance_type = "t2.micro"
-      lifecycle {
-        ignore_changes = [ami]
+resource "google_cloud_run_service" "cloud-run-lono" {
+      name = "cloud-run-lono"
+      location = "us-west1"
+      autogenerate_revision_name = true
+      template {
+        spec {
+          containers {
+            image = "gcr.io/devxp-339721/devxp:b79f5c8"
+            env {
+              name = "CONNECTION_STRING"
+              value = var.CONNECTION_STRING
+            }
+            env {
+              name = "GITHUB_CLIENT_ID"
+              value = var.GITHUB_CLIENT_ID
+            }
+            env {
+              name = "GITHUB_CLIENT_SECRET"
+              value = var.GITHUB_CLIENT_SECRET
+            }
+          }
+        }
       }
-      subnet_id = aws_subnet.devxp_vpc_subnet_public.id
-      associate_public_ip_address = true
-      vpc_security_group_ids = [aws_security_group.devxp_security_group.id]
-      iam_instance_profile = aws_iam_instance_profile.hhhttt_iam_role_instance_profile.name
-}
-
-resource "aws_eip" "hhhttt_eip" {
-      instance = aws_instance.hhhttt.id
-      vpc = true
-}
-
-resource "aws_iam_instance_profile" "es_iam_role_instance_profile" {
-      name = "es_iam_role_instance_profile"
-      role = aws_iam_role.es_iam_role.name
-}
-
-resource "aws_iam_instance_profile" "io_iam_role_instance_profile" {
-      name = "io_iam_role_instance_profile"
-      role = aws_iam_role.io_iam_role.name
-}
-
-resource "aws_iam_instance_profile" "hhhttt_iam_role_instance_profile" {
-      name = "hhhttt_iam_role_instance_profile"
-      role = aws_iam_role.hhhttt_iam_role.name
-}
-
-resource "aws_iam_role" "es_iam_role" {
-      name = "es_iam_role"
-      assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
-}
-
-resource "aws_iam_role" "io_iam_role" {
-      name = "io_iam_role"
-      assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
-}
-
-resource "aws_iam_role" "hhhttt_iam_role" {
-      name = "hhhttt_iam_role"
-      assume_role_policy = "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [\n    {\n      \"Action\": \"sts:AssumeRole\",\n      \"Principal\": {\n        \"Service\": \"ec2.amazonaws.com\"\n      },\n      \"Effect\": \"Allow\",\n      \"Sid\": \"\"\n    }\n  ]\n}"
-}
-
-resource "aws_subnet" "devxp_vpc_subnet_private" {
-      vpc_id = aws_vpc.devxp_vpc.id
-      cidr_block = "10.0.128.0/24"
-      map_public_ip_on_launch = false
-      availability_zone = "us-west-2a"
-}
-
-resource "aws_route_table" "devxp_vpc_routetable_priv" {
-      vpc_id = aws_vpc.devxp_vpc.id
-}
-
-resource "aws_route_table_association" "devxp_vpc_subnet_private_assoc" {
-      subnet_id = aws_subnet.devxp_vpc_subnet_private.id
-      route_table_id = aws_route_table.devxp_vpc_routetable_priv.id
-}
-
-resource "aws_subnet" "devxp_vpc_subnet_public" {
-      vpc_id = aws_vpc.devxp_vpc.id
-      cidr_block = "10.0.0.0/24"
-      map_public_ip_on_launch = true
-      availability_zone = "us-west-2a"
-}
-
-resource "aws_internet_gateway" "devxp_vpc_internetgateway" {
-      vpc_id = aws_vpc.devxp_vpc.id
-}
-
-resource "aws_route_table" "devxp_vpc_routetable_pub" {
-      route {
-        cidr_block = "0.0.0.0/0"
-        gateway_id = aws_internet_gateway.devxp_vpc_internetgateway.id
+      traffic {
+        percent = 100
+        latest_revision = true
       }
-      vpc_id = aws_vpc.devxp_vpc.id
+      depends_on = [google_project_service.cloud-run-lono-service]
 }
 
-resource "aws_route" "devxp_vpc_internet_route" {
-      route_table_id = aws_route_table.devxp_vpc_routetable_pub.id
-      destination_cidr_block = "0.0.0.0/0"
-      gateway_id = aws_internet_gateway.devxp_vpc_internetgateway.id
+resource "google_cloud_run_service_iam_member" "cloud-run-lono-iam" {
+      service = google_cloud_run_service.cloud-run-lono.name
+      location = google_cloud_run_service.cloud-run-lono.location
+      project = google_cloud_run_service.cloud-run-lono.project
+      role = "roles/run.invoker"
+      member = "allUsers"
 }
 
-resource "aws_route_table_association" "devxp_vpc_subnet_public_assoc" {
-      subnet_id = aws_subnet.devxp_vpc_subnet_public.id
-      route_table_id = aws_route_table.devxp_vpc_routetable_pub.id
+resource "google_project_service" "cloud-run-lono-service" {
+      disable_on_destroy = false
+      service = "run.googleapis.com"
 }
 
-resource "aws_vpc" "devxp_vpc" {
-      cidr_block = "10.0.0.0/16"
-      enable_dns_support = true
-      enable_dns_hostnames = true
+resource "google_storage_bucket" "storage-bucket-qjff-vmje-tocd-rhqc-fzei" {
+      name = "storage-bucket-qjff-vmje-tocd-rhqc-fzei"
+      location = "us-west1"
+      project = "devxp-339721"
 }
 
-resource "aws_security_group" "devxp_security_group" {
-      vpc_id = aws_vpc.devxp_vpc.id
-      name = "devxp_security_group"
-      ingress {
-        from_port = 0
-        to_port = 0
-        protocol = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
-      egress {
-        from_port = 0
-        to_port = 0
-        protocol = "-1"
-        cidr_blocks = ["0.0.0.0/0"]
-      }
+
+variable "CONNECTION_STRING" {
+    type = string
+    sensitive = true
 }
 
-data "aws_ami" "amazon_latest" {
-      most_recent = true
-      owners = ["585441382316"]
-      filter {
-        name = "name"
-        values = ["*AmazonLinux*"]
-      }
-      filter {
-        name = "virtualization-type"
-        values = ["hvm"]
-      }
+variable "GITHUB_CLIENT_ID" {
+    type = string
+    sensitive = true
 }
 
-data "aws_ami" "ubuntu_latest" {
-      most_recent = true
-      owners = ["099720109477"]
-      filter {
-        name = "name"
-        values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64*"]
-      }
-      filter {
-        name = "virtualization-type"
-        values = ["hvm"]
-      }
+variable "GITHUB_CLIENT_SECRET" {
+    type = string
+    sensitive = true
+}
+
+output "cloud-run-lono-service-url" {
+    value = google_cloud_run_service.cloud-run-lono.status[0].url
 }
 
